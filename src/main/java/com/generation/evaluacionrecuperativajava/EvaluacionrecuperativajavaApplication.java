@@ -2,6 +2,7 @@ package com.generation.evaluacionrecuperativajava;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,8 +13,7 @@ import com.generation.evaluacionrecuperativajava.models.Ventas;
 
 @SpringBootApplication
 public class EvaluacionrecuperativajavaApplication {
-	HashMap
-
+	
 	//1) Se debe crear una función que permita guardar un arreglo de una cierta cantidad de productos y que luego los muestre
 	public static void productos(){
 		ArrayList<Producto> listaProductos = new ArrayList<Producto>();
@@ -29,8 +29,6 @@ public class EvaluacionrecuperativajavaApplication {
 				producto.setNombre(teclado.nextLine());
 				System.out.println("Ingrese la categoría del producto n°" +i);
 				producto.setCategoria(teclado.nextLine());
-				// System.out.println("Ingrese el precio del producto n°" + i);
-				//producto.setPrecio(teclado.nextDouble());
 				System.out.println("Ingrese el stock del producto n°" + i);
 				producto.setStock(teclado.nextInt());
 
@@ -52,8 +50,8 @@ public class EvaluacionrecuperativajavaApplication {
 		cantidadProductos = teclado.nextInt();
 		teclado.nextLine();
 		
-		String productoVenta = "";
-		Double precioProducto = 0.0;
+		String productoVenta;
+		Double precioProducto;
 		
 		for(int i = 1; i <= cantidadProductos; i++){
 			productoVenta = "";
@@ -76,32 +74,47 @@ public class EvaluacionrecuperativajavaApplication {
 	// /*
 	//  * 3) Se debe crear una función que dado un diccionario de productos con sus respectivos precios se obtenga, la ganancia total, el producto más caro y el producto más barato.
 	//  * 
-
+	  //Intenté recrear una función entregada por Nicolás en las ayudantías, pero finalmente no logré adaptarla completamente.
 	//  */
-	public static void dicionario(ArrayList<Double>notas){
+	public static void diccionario(){
 		Double mayor = 0.0;
-		Double menor = 1000000000.0;
-		Double suma = 0.0;
-		Double promedio = 0.0;
-        // recorremos el arreglo en este caso de tipo Double
-		for (int i = 0; i < notas.size(); i++) {
-			//sumamos las notas 
-			suma = suma + notas.get(i); 
-			// ocupo dos if, y por que no un if else, por que aca necesito que si o si se cumplan las dos condiciones, y no que si no se cumpla la primera pase a al else recien
-			// obligo al programa que pase si o si por los dos if
-			if(notas.get(i)>mayor){
-				mayor = notas.get(i);
-			}
-			if(notas.get(i)<menor){
-				menor = notas.get(i);
-			}
-
-		}
-		//sacamos el promedio y lo guardamos en la variable promedio 
-		promedio = suma/notas.size();
-        // mostramos el resultado
-		System.out.println("La nota mas alta fue: "+mayor+"\nla nota mas baja fue: "+menor+ "\nel promedio de notas es de: "+promedio);
+		Double menor = 0.0;
+		Double ganancia = 0.0;
+		String productoMasBarato = "";
+		String productoMasCaro = "";
+		Scanner teclado = new Scanner(System.in);
+		HashMap<String, Double> diccionario = new HashMap<String, Double>();
+		int diccionarioProducto = 0;
+		System.out.println("Indique la cantidad de productos que desea ingresar para proseguir: ");
+		diccionarioProducto = teclado.nextInt();
+		teclado.nextLine();
+		String productoDiccionario;
+		Double precioDiccionario;
+		for(int i = 1; i<= diccionarioProducto; i++){
+			productoDiccionario = "";
+			precioDiccionario = 0.0;
+			System.out.println("Indique el producto n°" + i);
+			productoDiccionario = teclado.nextLine();
+			System.out.println("Ingrese el precio del producto n°"+ i);
+			precioDiccionario = teclado.nextDouble();
+			teclado.nextLine();
+			diccionario.putIfAbsent(productoDiccionario, precioDiccionario);
+			
 	}
+	System.out.println("Estos son los productos y precios que ingresó: " + diccionario);
+	for (Double i : diccionario.values()) {
+		if(diccionario.get(i)>mayor){
+			mayor = diccionario.get(i);
+		}
+
+		if(diccionario.get(i)<menor){
+			menor = diccionario.get(i);
+		}
+		
+	}
+
+	}
+	
 
 
 
@@ -125,7 +138,7 @@ public class EvaluacionrecuperativajavaApplication {
 				System.out.println("Bienvenido");
 				System.out.println("Ingresa 1 si quieres ingresar productos al sistema y verlos");
 				System.out.println("Ingresa 2 si quieres ver la ganancia de la venta");
-				System.out.println("Ingresa 3 si quiere ver ");
+				System.out.println("Ingresa 3 si quieres saber, dada una lista de productos, la ganancia, el producto más caro y el producto más barato");
 				System.out.println("Ingresa 0 para salir del menú");
 				System.out.print("Ingresa tu opcion: ");
 				opcion=teclado.nextInt();
@@ -136,7 +149,12 @@ public class EvaluacionrecuperativajavaApplication {
 		
 		} else if(opcion ==2){
 			ventas();
+		
+		}else if (opcion == 3){
+			diccionario();
 		}
+
+
 	}	
 }
 
